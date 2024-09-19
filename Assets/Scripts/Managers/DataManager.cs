@@ -9,6 +9,8 @@ using JsonData = LitJson.JsonData;
 
 public class DataManager : Singleton<DataManager>
 {
+    public LoginType loginType;
+    
     private DateTime serverTime;
     private bool isServerTimeUpdate;
     private bool isChangeServerTime;
@@ -32,6 +34,24 @@ public class DataManager : Singleton<DataManager>
     {
         SetUserData();
     }
+    
+    public void LoginWithType()
+    {
+        switch (loginType)
+        {
+            case LoginType.Guest :
+                BackendManager.Instance.GuestLoginSequense();
+                Debug.Log("Guest 로그인 시도");
+                break;
+            case LoginType.Google :
+                Debug.Log("Google 로그인 시도");
+                break;
+            case LoginType.Apple :
+                Debug.Log("Apple 로그인 시도");
+                break;
+        }
+    }
+    
     
     public void SetRowInDate(UserDataType table, string inDate)
     {

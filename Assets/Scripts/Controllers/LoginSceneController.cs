@@ -52,11 +52,12 @@ public class LoginSceneController : MonoBehaviour
         
         loginSceneUI = getLoginSceneUI.GetComponent<LoginSceneUI>();
 
-        //Button[] buttons = loginSceneUI.loginButtonParent.GetComponentsInChildren<Button>();
-        // foreach (Button button in buttons)
-        // {
-        //     loginButtons.Add(button);
-        // }
+        Button[] buttons = loginSceneUI.loginButtonParent.GetComponentsInChildren<Button>();
+        
+        foreach (Button button in buttons)
+        {
+            loginButtons.Add(button);
+        }
 
         //loginSceneUI.localAppVersionText.text = DataManager.Instance.localVersion;
         //loginSceneUI.serverAppVersionText.text = DataManager.Instance.serverVersion;

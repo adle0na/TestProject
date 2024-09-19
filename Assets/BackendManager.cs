@@ -34,9 +34,7 @@ public class BackendManager : Singleton<BackendManager>
 
     // 방치형 보상 처리
     public bool LoadServerTime = false;
-    
-    public GameObject loginUI;
-    
+
     public void Initialize()
     {
         BackendCustomSetting settings = new BackendCustomSetting();
@@ -222,7 +220,6 @@ public class BackendManager : Singleton<BackendManager>
             case "201": //신규 회원가입
                 Debug.Log("신규 회원으로 시작합니다");
                 SetNewUserDataSaveToServer();
-                //SetCountryCode();
                 InsertLog(GameLogType.SignIn, $"{Application.version}");
                 break;
             case "200": //로그인

@@ -52,7 +52,17 @@ public class MonsterData
 }
 
 [Serializable]
-public class ItemData
+public class IngredientItem
+{
+    public int index;
+    public string name;
+    public int grade;
+    public string iconName;
+    public string descript;
+}
+
+[Serializable]
+public class ConsumableItem
 {
     public int index;
     public string name;

@@ -18,7 +18,8 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 
 	public List<CharacterData>      characterDB;
 	public List<MonsterData>        monsterDB;
-	public List<ItemData>           itemDB;
+	public List<IngredientItem>     ingredientItemDB;
+	public List<ConsumableItem>     consumableItemDB;
 	public List<WeaponData>         weaponDB;
 	public List<ArmorData>          armorDB;
 	public List<AllEventData>       allEventDB;
@@ -47,8 +48,6 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 	public void LoadAllData()
 	{
 		Debug.LogError("모든 데이터 조회 실행");
-		
-		AllListClear();
 
 		if (getDataCor != null)
 		{
@@ -57,23 +56,6 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 		getDataCor = StartCoroutine(GetDataCor());
 	}
 
-	public void AllListClear()
-	{
-		characterDB.Clear();
-		monsterDB.Clear();
-		itemDB.Clear();
-		weaponDB.Clear();
-		armorDB.Clear();
-		allEventDB.Clear();
-		event1DB.Clear();
-		event2DB.Clear();
-		event3DB.Clear();
-		shopDB.Clear();
-		missionDB.Clear();
-		skillDB.Clear();
-		inAppositeWordDB.Clear();
-	}
-	
 	IEnumerator GetDataCor()
 	{
 		foreach (TableDataType value in TableDataType.GetValues(typeof(TableDataType)))
@@ -96,11 +78,14 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 				case TableDataType.Monster:
 					MonsterDataParse(data);
 					break;
-				case TableDataType.Item:
-					//CaseDataParse(data);
+				case TableDataType.IngredientItem:
+					IngredientItemDataParse(data);
+					break;
+				case TableDataType.ConsumableItem:
+					ConsumableItemDataParse(data);
 					break;
 				case TableDataType.Weapon:
-					//SelectionDataParse(data);
+					//ConsumableItemDataParse(data);
 					break;
 				case TableDataType.Armor:
 					//SelectEventDataParse(data);
@@ -141,8 +126,11 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 			case TableDataType.Monster:
 				tableCode = "1154871274&range=A4:N";
 				break;
-			case TableDataType.Item:
-				//tableCode = "557199738&range=A4:H";
+			case TableDataType.IngredientItem:
+				tableCode = "1289380474&range=A4:E";
+				break;
+			case TableDataType.ConsumableItem:
+				tableCode = "866585351&range=A4:E";
 				break;
 			case TableDataType.Weapon:
 				//tableCode = "2136310630&range=A4:L";
@@ -287,84 +275,68 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 			}
 		}
 	}
-	// public void CaseDataParse(string data)
-	// {
-	// 	caseDB.Clear();
-	// 	
-	// 	string[] lines = data.Trim().Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 	
-	// 	foreach (string line in lines)
-	// 	{
-	// 		string[] values = line.Trim().Split(new[] { '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 		
-	// 		if (values.Length == 8 && 
-	// 		    int.TryParse(values[0], out int caseID) &&
-	// 		    int.TryParse(values[6], out int selectionL) &&
-	// 		    int.TryParse(values[7], out int selectionR))
-	// 		{
-	// 			CaseData caseData = new CaseData();
-	//
-	// 			caseData.caseID          = caseID;
-	// 			caseData.caseType        = StringToCaseTypeEnum(values[1]);
-	// 			caseData.caseDescription = values[2];
-	// 			caseData.caseDialogue    = values[3];
-	// 			caseData.caseImage       = values[4];
-	// 			caseData.caseTitle       = values[5];
-	// 			caseData.selectionL      = selectionL;
-	// 			caseData.selectionR      = selectionR;
-	// 			
-	// 			caseDB.Add(caseData);
-	// 		}
-	// 		else
-	// 		{
-	// 			Debug.LogError($"Invalid data line: {line}");
-	// 		}
-	// 	}
-	// }
-	// public void SelectionDataParse(string data)
-	// {
-	// 	selectionDB.Clear();
-	// 	
-	// 	string[] lines = data.Trim().Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 	
-	// 	foreach (string line in lines)
-	// 	{
-	// 		string[] values = line.Trim().Split(new[] { '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 		
-	// 		if (values.Length == 12 && 
-	// 		    int.TryParse(values[0], out int selectionID) &&
-	// 		    int.TryParse(values[3], out int selectStatus1Value) &&
-	// 		    int.TryParse(values[5], out int selectStatus2Value) &&
-	// 		    int.TryParse(values[7], out int selectStatus3Value) &&
-	// 		    int.TryParse(values[9], out int selectStatus4Value) &&
-	// 		    int.TryParse(values[10], out int selectEventID) &&
-	// 		    float.TryParse(values[11], out float selectEventRate)
-	// 		    )
-	// 		{
-	// 			SelectionData selectionData = new SelectionData();
-	//
-	// 			selectionData.selectionID        = selectionID;
-	// 			selectionData.selectDescription  = values[1];
-	// 			selectionData.selectStatus1      = StringToStatusEnum(values[2]);
-	// 			selectionData.selectStatus1Value = selectStatus1Value;
-	// 			selectionData.selectStatus2      = StringToStatusEnum(values[4]);
-	// 			selectionData.selectStatus2Value = selectStatus2Value;
-	// 			selectionData.selectStatus3      = StringToStatusEnum(values[6]);
-	// 			selectionData.selectStatus3Value = selectStatus3Value;
-	// 			selectionData.selectStatus4      = StringToStatusEnum(values[8]);;
-	// 			selectionData.selectStatus4Value = selectStatus4Value;
-	// 			selectionData.selectEventID      = selectEventID;
-	// 			selectionData.selectEventRate    = selectEventRate;
-	// 			
-	// 			selectionDB.Add(selectionData);
-	// 		}
-	// 		else
-	// 		{
-	// 			Debug.LogError($"Invalid data line: {line}");
-	// 		}
-	// 	}
-	// }
-	//
+	public void IngredientItemDataParse(string data)
+	{
+		ingredientItemDB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 5 && 
+			    int.TryParse(values[0], out int index) &&
+			    int.TryParse(values[2], out int grade)
+			   )
+			{
+				IngredientItem ingredientItemData = new IngredientItem();
+	
+				ingredientItemData.index         = index;
+				ingredientItemData.name          = values[1];
+				ingredientItemData.grade         = grade;
+				ingredientItemData.iconName      = values[3];
+				ingredientItemData.descript      = values[4];
+
+				ingredientItemDB.Add(ingredientItemData);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
+	}
+	public void ConsumableItemDataParse(string data)
+	{
+		consumableItemDB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 5 && 
+			    int.TryParse(values[0], out int index) &&
+			    int.TryParse(values[2], out int grade)
+			   )
+			{
+				ConsumableItem consumableItemData = new ConsumableItem();
+	
+				consumableItemData.index         = index;
+				consumableItemData.name          = values[1];
+				consumableItemData.grade         = grade;
+				consumableItemData.iconName      = values[3];
+				consumableItemData.descript      = values[4];
+
+				consumableItemDB.Add(consumableItemData);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
+	}
 	// public void SelectEventDataParse(string data)
 	// {
 	// 	selectEventDB.Clear();

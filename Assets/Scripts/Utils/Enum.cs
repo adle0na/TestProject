@@ -20,7 +20,8 @@ public enum TableDataType
 {
     Character,
     Monster,
-    Item,
+    IngredientItem,
+    ConsumableItem,
     Weapon,
     Armor,
     AllEvent,

@@ -11,7 +11,9 @@ public enum LoginType
 
 public enum UserDataType
 {
-    
+    UserAccount,
+    UserProperty,
+    UserCharacterUpgrade
 }
 
 public enum TableDataType
@@ -31,6 +33,16 @@ public enum TableDataType
     InAppositeWord
 }
 
+public enum GameLogType
+{
+    SignIn,
+    LogIn,
+    AddItem,
+    UseItem,
+    UpgradeWeapon,
+    UpgradeArmor
+}
+
 public enum CurrentUIStatus
 {
     UI,
@@ -42,7 +54,7 @@ public enum PriceType
 {
     IAP,
     Gold,
-    Diamond,
+    Dia,
 }
 
 public enum Attribute
@@ -59,4 +71,24 @@ public enum WeaponType
     GreatSword,
     Bow,
     Staff
+}
+
+public enum ServerType
+{
+    Dev,
+    Live
+}
+
+public enum TransactionType
+{
+    Insert,
+    Update,
+    SetGet
+}
+
+public enum SaveType
+{
+    Insert,
+    Update,
+    SetGet
 }

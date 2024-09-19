@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#region TableData
+#region ### TableDatas ###
 
 [Serializable]
 public class CharacterData
@@ -137,4 +137,58 @@ public class InAppositeWordData
 
 #endregion
 
+#region ### UserDatas ###
 
+[Serializable]
+public class UserAccountData
+{
+    public string RowIndate;
+    public int AccountLevel;
+    public string LastConnect;
+}
+
+[Serializable]
+public class UserPropertyData
+{
+    public string RowIndate;
+    public int Gold;
+    public int Dia;
+    public string LastConnect;
+}
+
+[Serializable]
+public class UserCharacterUpgradeData
+{
+    public string RowIndate;
+    // 여기에 강화 정보 추가
+    public string LastConnect;
+}
+
+[Serializable]
+public class UserWeaponInvenData
+{
+    public string RowIndate;
+    // 여기에 유저 보유 무기 정보 추가
+    public string LastConnect;
+}
+
+[Serializable]
+public class UserArmorInvenData
+{
+    public string RowIndate;
+    // 여기에 방어구 보유 정보 추가
+    public string LastConnect;
+}
+
+[Serializable]
+public class UserItemInvenData
+{
+    public string RowIndate;
+    // 여기에 소모품 정보 추가
+    public string LastConnect;
+}
+
+
+
+
+#endregion

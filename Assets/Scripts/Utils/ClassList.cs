@@ -78,16 +78,17 @@ public class WeaponData
     public string name;
     public WeaponType weaponType;
     public Attribute attribute;
-    public int grade;
-    public string prefabName;
+    public string handRPrefab;
+    public string handLPrefab;
+    public string attackEffect;
+    public string projectile;
+    public string skilleffect;
     public string iconName;
     public int atk;
-    public float atkIncrement;
     public int ap;
-    public float apIncrement;
-    public float crt;
-    public float crtIncrement;
-    public int bornGrade;
+    public double crt;
+    public float bornGrade;
+    public int skillIndex;
 }
 
 [Serializable]
@@ -99,13 +100,20 @@ public class ArmorData
 [Serializable]
 public class AllEventData
 {
-
+    public int index;
+    public string name;
+    public bool isUsing;
+    public double eventRate;
 }
 
 [Serializable]
 public class Event1Data
 {
-
+    public int index;
+    public string name;
+    public bool isUsing;
+    public int goldAmount;
+    public double eventRate;
 }
 
 [Serializable]

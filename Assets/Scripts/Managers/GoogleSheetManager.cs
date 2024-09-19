@@ -85,12 +85,15 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 					ConsumableItemDataParse(data);
 					break;
 				case TableDataType.Weapon:
-					//ConsumableItemDataParse(data);
+					WeaponDataParse(data);
 					break;
+				case TableDataType.WeaponCraft:
+					//
 				case TableDataType.Armor:
 					//SelectEventDataParse(data);
 					break;
 				case TableDataType.AllEvent:
+					AllEventDataParse(data);
 					break;
 				case TableDataType.Event1:
 					break;
@@ -133,13 +136,18 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 				tableCode = "866585351&range=A4:E";
 				break;
 			case TableDataType.Weapon:
-				//tableCode = "2136310630&range=A4:L";
+				tableCode = "943329813&range=A4:O";
+				break;
+			case TableDataType.WeaponCraft:
+				tableCode = "454813452&range=A4:Q";
 				break;
 			case TableDataType.Armor:
 				//tableCode = "270773085&range=A4:D";
 				break;
+			case TableDataType.ArmorCraft:
+				//tableCode = "";
 			case TableDataType.AllEvent:
-				//tableCode = "1452065059&range=A4:S";
+				tableCode = "1260771282&range=A4:D";
 				break;
 			case TableDataType.Event1:
 				//tableCode = "1452065059&range=A4:S";
@@ -202,7 +210,7 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 				characterData.name          = values[1];
 				characterData.prefabName    = values[2];
 				characterData.iconName      = values[3];
-				characterData.attribute     = StringToStatusEnum(values[4]);
+				characterData.attribute     = StringToAttributeEnum(values[4]);
 				characterData.hp            = hp;
 				characterData.hpIncrement   = hpIncrement;
 				characterData.def           = def;
@@ -263,7 +271,7 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 				monsterData.atkIncrement  = atkIncrement;
 				monsterData.def           = def;
 				monsterData.defIncrement  = defIncrement;
-				monsterData.attribute     = StringToStatusEnum(values[11]);
+				monsterData.attribute     = StringToAttributeEnum(values[11]);
 				monsterData.minGrade      = minGrade;
 				monsterData.descript      = values[13];
 				
@@ -337,107 +345,127 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 			}
 		}
 	}
-	// public void SelectEventDataParse(string data)
-	// {
-	// 	selectEventDB.Clear();
-	// 	
-	// 	string[] lines = data.Trim().Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 	
-	// 	foreach (string line in lines)
-	// 	{
-	// 		string[] values = line.Trim().Split(new[] { '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 		
-	// 		if (values.Length == 4 && 
-	// 		    int.TryParse(values[0], out int selectEventID) &&
-	// 		    float.TryParse(values[2], out float selectEventStatusValue)
-	// 		   )
-	// 		{
-	// 			SelectEventData selectEventData = new SelectEventData();
-	//
-	// 			selectEventData.selectEventID          = selectEventID;
-	// 			selectEventData.selectEventStatus      = StringToStatusEnum(values[1]);
-	// 			selectEventData.selectEventStatusValue = selectEventStatusValue;
-	// 			selectEventData.selectEventDescription = values[3];
-	// 			
-	// 			selectEventDB.Add(selectEventData);
-	// 		}
-	// 		else
-	// 		{
-	// 			Debug.LogError($"Invalid data line: {line}");
-	// 		}
-	// 	}
-	// }
-	//
-	// public void EndingDataParse(string data)
-	// {
-	// 	endingDB.Clear();
-	// 	
-	// 	string[] lines = data.Trim().Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 	
-	// 	foreach (string line in lines)
-	// 	{
-	// 		string[] values = line.Trim().Split(new[] { '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 		
-	// 		if (values.Length == 19 && 
-	// 		    int.TryParse(values[0], out int endingID) &&
-	// 		    int.TryParse(values[3], out int endingOrder) &&
-	// 		    int.TryParse(values[5], out int endingStatus1value) &&
-	// 		    bool.TryParse(values[6], out bool endingStatus1valueCondition) &&
-	// 		    int.TryParse(values[8], out int endingStatus2value) &&
-	// 		    bool.TryParse(values[9], out bool endingStatus2valueCondition) &&
-	// 		    int.TryParse(values[11], out int endingStatus3value) &&
-	// 			bool.TryParse(values[12], out bool endingStatus3valueCondition) &&
-	// 		    int.TryParse(values[14], out int endingStatus4value) &&
-	// 		    bool.TryParse(values[15], out bool endingStatus4valueCondition) &&
-	// 		    int.TryParse(values[17], out int endingGrade)
-	// 		   )
-	// 		{
-	// 			EndingData endingData = new EndingData();
-	//
-	// 			endingData.endingID                    = endingID;
-	// 			endingData.endingName                  = values[1];
-	// 			endingData.endingImage                 = values[2];
-	// 			endingData.endingOrder                 = endingOrder;
-	// 			
-	// 			endingData.endingStatus1               = StringToStatusEnum(values[4]);
-	// 			endingData.endingStatus1value          = endingStatus1value;
-	// 			endingData.endingStatus1valueCondition = endingStatus1valueCondition;
-	// 			
-	// 			endingData.endingStatus2               = StringToStatusEnum(values[7]);
-	// 			endingData.endingStatus2value          = endingStatus2value;
-	// 			endingData.endingStatus3valueCondition = endingStatus2valueCondition;
-	// 			
-	// 			endingData.endingStatus3               = StringToStatusEnum(values[10]);
-	// 			endingData.endingStatus3value          = endingStatus3value;
-	// 			endingData.endingStatus3valueCondition = endingStatus3valueCondition;
-	// 			
-	// 			endingData.endingStatus4               = StringToStatusEnum(values[13]);
-	// 			endingData.endingStatus4value          = endingStatus4value;
-	// 			endingData.endingStatus4valueCondition = endingStatus4valueCondition;
-	//
-	// 			endingData.endingDescription           = values[16];
-	// 			endingData.endingGrade                 = endingGrade;
-	// 			endingData.endingGradedescription      = values[18];
-	// 			
-	// 			endingDB.Add(endingData);
-	// 		}
-	// 		else
-	// 		{
-	// 			Debug.LogError($"Invalid data line: {line}");
-	// 		}
-	// 	}
-	// }
-
-	private Attribute StringToStatusEnum(string enumString)
+	public void WeaponDataParse(string data)
 	{
-		Attribute statusType = (Attribute)Enum.Parse(typeof(Attribute), enumString);
-			return statusType;
+		weaponDB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 15 && 
+			    int.TryParse(values[0], out int index) &&
+			    int.TryParse(values[10], out int atk) &&
+			    int.TryParse(values[6], out int ap) &&
+			    double.TryParse(values[7], out double crt) &&
+			    float.TryParse(values[8], out float bornGrade) &&
+			    int.TryParse(values[9], out int skillIndex)
+			   )
+			{
+				WeaponData weaponData = new WeaponData();
+	
+				weaponData.index         = index;
+				weaponData.name          = values[1];
+				weaponData.weaponType    = StringToWeaponTypeEnum(values[2]);
+				weaponData.attribute     = StringToAttributeEnum(values[3]);
+				weaponData.handRPrefab   = values[4];
+				weaponData.handLPrefab   = values[5];
+				weaponData.attackEffect  = values[6];
+				weaponData.projectile    = values[7];
+				weaponData.skilleffect   = values[8];
+				weaponData.iconName      = values[9];
+				weaponData.atk           = atk;
+				weaponData.ap            = ap;
+				weaponData.crt           = crt;
+				weaponData.bornGrade     = bornGrade;
+				weaponData.skillIndex    = skillIndex;
+
+				weaponDB.Add(weaponData);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
 	}
-	//
-	// private CaseType StringToCaseTypeEnum(string enumString)
-	// {
-	// 	CaseType cardType = (CaseType)Enum.Parse(typeof(CaseType), enumString);
-	//
-	// 	return cardType;
-	// }
+	
+	public void AllEventDataParse(string data)
+	{
+		allEventDB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 4 && 
+			    int.TryParse(values[0], out int index) &&
+			    bool.TryParse(values[2], out bool isUsing) &&
+			    double.TryParse(values[3], out double eventRate)
+			   )
+			{
+				AllEventData allEventData = new AllEventData();
+	
+				allEventData.index         = index;
+				allEventData.name          = values[1];
+				allEventData.isUsing       = isUsing;
+				allEventData.eventRate     = eventRate;
+
+				allEventDB.Add(allEventData);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
+	}
+	
+	public void Event1DataParse(string data)
+	{
+		event1DB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 5 && 
+			    int.TryParse(values[0], out int index) &&
+			    bool.TryParse(values[2], out bool isUsing) &&
+			    int.TryParse(values[3], out int goldAmount) &&
+			    double.TryParse(values[4], out double eventRate)
+			   )
+			{
+				Event1Data event1Data = new Event1Data();
+	
+				event1Data.index         = index;
+				event1Data.name          = values[1];
+				event1Data.isUsing       = isUsing;
+				event1Data.goldAmount    = goldAmount;
+				event1Data.eventRate     = eventRate;
+
+				event1DB.Add(event1Data);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
+	}
+
+	private Attribute StringToAttributeEnum(string enumString)
+	{
+		Attribute attributeType = (Attribute)Enum.Parse(typeof(Attribute), enumString);
+		return attributeType;
+	}
+	
+	private WeaponType StringToWeaponTypeEnum(string enumString)
+	{
+		WeaponType weaponType = (WeaponType)Enum.Parse(typeof(WeaponType), enumString);
+		return weaponType;
+	}
 }

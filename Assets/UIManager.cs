@@ -28,11 +28,12 @@ public class UIManager : Singleton<UIManager>
 
     [Header("PopupPrefabs")]
     public GameObject popupParentPrefab;
+
+    public GameObject NickNameChangePopupPrefab;
     
     public GameObject RecyclePopup_1ButtonPrefab;
     public GameObject RecyclePopup_2ButtonPrefab;
     public GameObject SettingPopupPrefab;
-    public GameObject MatchSelectPopupPrefab;
 
     public GameObject LoadingIndicatorPrefab;
     public GameObject InGameReadyPrefab;
@@ -47,7 +48,7 @@ public class UIManager : Singleton<UIManager>
             Destroy(gameObject);
         }
         instance = this;
-        // 모든 씬에서 유지
+
         DontDestroyOnLoad(gameObject);
     }
     
@@ -191,6 +192,21 @@ public class UIManager : Singleton<UIManager>
         
         PopupListAddABB(Popup, null);
     }
+
+    public void OpenNickNameChangePopup(bool isChange)
+    {
+        GameObject nickNamePopup = Instantiate(NickNameChangePopupPrefab, popupParent);
+
+        PopupList.Add(nickNamePopup);
+
+        CurrentPopup = nickNamePopup;
+        
+        NickNameCreatePopup getPopup = nickNamePopup.GetComponent<NickNameCreatePopup>();
+
+        getPopup.isChange = false;
+        
+        DarkBGCheck();
+    }
     
     // 공용 1버튼 팝업 생성 (제목, 내용, ABB액션 )
     public void OpenRecyclePopupOneButton(String title, String descript, Action action, string buttonText)
@@ -213,14 +229,17 @@ public class UIManager : Singleton<UIManager>
     
     public void OpenRecyclePopupTwoButton(String title, String descript, Action YButtonAction, Action NButtonAction)
     {
-        GameObject Popup = Instantiate(RecyclePopup_1ButtonPrefab, popupParent);
+        GameObject Popup = Instantiate(RecyclePopup_2ButtonPrefab, popupParent);
 
-        //RecyclePopup target = Popup.GetComponent<RecyclePopup>();
+        RecyclePopupNoneABB target = Popup.GetComponent<RecyclePopupNoneABB>();
 
-        //target.title.text    = title;
-        //target.descript.text = descript;
-
-        // 각각 버튼에 매핑
+        target.titleText.text       = title;
+        target.descriptionText.text = descript;
+        target.YAction = (YButtonAction != null) ? YButtonAction : PopupListPop;
+        target.NAction = (NButtonAction != null) ? NButtonAction : PopupListPop;
+        
+        target.SetYButtonAction();
+        target.SetNButtonAction();
 
         PopupListAddNoneABB(Popup);
     }

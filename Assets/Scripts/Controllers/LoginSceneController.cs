@@ -13,6 +13,7 @@ public class LoginSceneController : MonoBehaviour
     public LoginSceneUI loginSceneUI;
     
     public GameObject loginSceneUIPrefab;
+    public GameObject selectCharacterUIPrefab;
 
     public List<Button> loginButtons;
 
@@ -30,19 +31,13 @@ public class LoginSceneController : MonoBehaviour
     void Start()
     {
         dataManager = DataManager.Instance;
-
-        StartCoroutine(nameof(WaitForBackendConnect));
-
+        
         //AudioManager.Instance.PlayBGM(0);
-    }
 
-    IEnumerator WaitForBackendConnect()
-    {
-        yield return new WaitUntil( () => BackendManager.Instance.IsInitialize);
+        StartCoroutine(nameof(CheckBackendInitialized));
 
-        LoginSceneUIInitialize();
+        StartCoroutine(nameof(CheckIsAlreadyLogined));
     }
-    
     void LoginSceneUIInitialize()
     {
         Debug.LogError("로그인 UI 활성화 했음");
@@ -51,15 +46,28 @@ public class LoginSceneController : MonoBehaviour
         getLoginSceneUI.transform.SetSiblingIndex(0);
         
         loginSceneUI = getLoginSceneUI.GetComponent<LoginSceneUI>();
-
+        
         Button[] buttons = loginSceneUI.loginButtonParent.GetComponentsInChildren<Button>();
         
         foreach (Button button in buttons)
         {
             loginButtons.Add(button);
         }
+    }
 
-        //loginSceneUI.localAppVersionText.text = DataManager.Instance.localVersion;
-        //loginSceneUI.serverAppVersionText.text = DataManager.Instance.serverVersion;
+    IEnumerator CheckBackendInitialized()
+    {
+        yield return new WaitUntil(() => BackendManager.Instance.IsInitialize);
+
+        LoginSceneUIInitialize();
+    }
+
+    IEnumerator CheckIsAlreadyLogined()
+    {
+        yield return new WaitUntil(() => BackendManager.Instance.IsLogined);
+        
+        loginSceneUI.loginButtonParent.SetActive(false);
+        
+        SceneManager.LoadScene(1);
     }
 }

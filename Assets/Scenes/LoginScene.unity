@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e80537d0c7552549b2ce949a76635b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loginType: 0
   userAccountData:
     RowIndate: 
     AccountLevel: 0
@@ -236,7 +237,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -437,9 +438,12 @@ MonoBehaviour:
   CurrentUIStatus: 0
   popupParentPrefab: {fileID: 2207717427386310753, guid: f930f9b1c7dc98941a5c2aff85e922d8,
     type: 3}
-  RecyclePopup_1ButtonPrefab: {fileID: 5711130987877719518, guid: 1436cdddde898c84fb04c83c88704701,
+  NickNameChangePopupPrefab: {fileID: 5732741720591216512, guid: 6f5a1be26d58fe947972c147ef8510c6,
     type: 3}
-  RecyclePopup_2ButtonPrefab: {fileID: 0}
+  RecyclePopup_1ButtonPrefab: {fileID: 5732741720591216512, guid: 583123f6422e6fa4a98e09fa81dd857c,
+    type: 3}
+  RecyclePopup_2ButtonPrefab: {fileID: 5732741720591216512, guid: 3f925bf78091b8c49b54ac11edcf2ee5,
+    type: 3}
   SettingPopupPrefab: {fileID: 0}
   MatchSelectPopupPrefab: {fileID: 0}
   LoadingIndicatorPrefab: {fileID: 0}
@@ -506,12 +510,12 @@ MonoBehaviour:
   serverStatus: 0
   checkLoginWayData: -1
   IsInitialize: 0
+  IsLogined: 0
   SuccessLoadDataCount: 0
   UserIndate: 
   Nickname: 
   UID: 
   LoadServerTime: 0
-  loginUI: {fileID: 0}
 --- !u!1 &1302542754
 GameObject:
   m_ObjectHideFlags: 0

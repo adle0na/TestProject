@@ -9,6 +9,10 @@ using JsonData = LitJson.JsonData;
 
 public class DataManager : Singleton<DataManager>
 {
+    public static DataManager instance;
+
+    public bool LoadStatus;
+    
     public LoginType loginType;
     
     private DateTime serverTime;
@@ -17,8 +21,31 @@ public class DataManager : Singleton<DataManager>
  
     public DateTime LocalTime;
     
-    public UserAccountData  userAccountData  = new();
-    public UserPropertyData userPropertyData = new();
+    List<Dictionary<string, object>> DataDic = new List<Dictionary<string, object>>();
+    
+    public UserAccountData     userAccountData        = new();
+    public UserPropertyData    userPropertyData       = new();
+    public UserWeaponInvenData userWeaponInvenData    = new();
+    public UserArmorInvenData  userArmorInvenData     = new();
+    public UserItemInvenData   userItemInvenData      = new();
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        instance = this;
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void Initialize()
+    {
+        //SetData();
+        DataDic.Clear();
+    }
+    
     public void SetLocalTime(DateTime servertime)
     {
         if (serverTime < servertime)

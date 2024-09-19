@@ -5,17 +5,21 @@ using System.Threading;
 using BackEnd;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BackendManager : Singleton<BackendManager>
 {
+    public static BackendManager instance;
+    
     public ServerType serverStatus = ServerType.Live; 
     
     [SerializeField]
     List<TransactionValue> transactionList = new List<TransactionValue>();
     
     public int checkLoginWayData = -1;
-    
-    public bool IsInitialize = false;
+
+    public bool IsInitialize;
+    public bool IsLogined;
 
     public int SuccessLoadDataCount = 0;
     
@@ -35,6 +39,17 @@ public class BackendManager : Singleton<BackendManager>
     // 방치형 보상 처리
     public bool LoadServerTime = false;
 
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        instance = this;
+
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void Initialize()
     {
         BackendCustomSetting settings = new BackendCustomSetting();
@@ -136,6 +151,21 @@ public class BackendManager : Singleton<BackendManager>
         PlayerPrefs.SetInt("LoginWay", 0);
     }
     
+    public void GuestIdDelete()
+    {
+        if (Backend.BMember.GetGuestID().Length > 0)
+        {
+            Debug.LogFormat("GuestID {0} Delete", Backend.BMember.GetGuestID());
+            Backend.BMember.DeleteGuestInfo();
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.SetInt("LoginWay", -1);
+        }
+        else
+        {
+            Debug.LogFormat("Server Not Connected");
+        }
+    }
+    
     /* GPGS 나중에 추가
     public void GoogleLoginSetting()
     {
@@ -180,6 +210,8 @@ public class BackendManager : Singleton<BackendManager>
                             else if (bro.GetMessage().Contains("customId"))
                             {
                                 Debug.LogError($"Guest Data Damaged");
+                                GuestIdDelete();
+                                UIManager.Instance.OpenRecyclePopupOneButton("시스템 에러", "삭제된 계정에 접근 하였습니다. \n 로그인을 다시 시도해주세요.", null, "");
                             }
                             break;
                     }
@@ -198,7 +230,14 @@ public class BackendManager : Singleton<BackendManager>
         Backend.BMember.GetUserInfo((callback) =>
         {
             Debug.LogError(callback.GetReturnValue());
-            UID = Backend.UID;
+
+            if (Backend.UID != null)
+            {
+                // UID 확인 성공 로그인 완료 처리
+                UID = Backend.UID;
+                Nickname = Backend.UserNickName;
+                CheckNickName();
+            }
         });
 
         UserIndate = Backend.UserInDate;
@@ -247,7 +286,7 @@ public class BackendManager : Singleton<BackendManager>
         DataManager.Instance.SaveAllDataAtFirst();
     }
     
-    // 기기에 로그인 방식 저장
+    // 기기에 저장된 로그인 방식 확인
     public void CheckLoginWayData()
     {
         if (PlayerPrefs.HasKey("LoginWay"))
@@ -255,6 +294,20 @@ public class BackendManager : Singleton<BackendManager>
             checkLoginWayData = PlayerPrefs.GetInt("LoginWay");
         }
         Debug.LogError(PlayerPrefs.HasKey("LoginWay") + checkLoginWayData.ToString());
+    }
+
+    public void CheckNickName()
+    {
+        if (Nickname.Length <= 0)
+        {
+            Debug.LogError("닉네임이 생성되지 않은 계정");
+
+            UIManager.Instance.OpenNickNameChangePopup(false);
+        }
+        else
+        {
+            IsLogined = true;
+        }
     }
     
     #endregion
@@ -486,6 +539,33 @@ public class BackendManager : Singleton<BackendManager>
                 yield return waitForRefreshTokenCycle;
             }
         }
+    }
+
+    public void ChangeNickName(string nickName, bool isChange)
+    {
+        Backend.BMember.UpdateNickname( nickName, ( callback ) =>
+        {
+            switch (callback.StatusCode)
+            {
+                case 204 :
+                    if (isChange)
+                    {
+                        UIManager.Instance.OpenRecyclePopupOneButton("시스템 메세지", $"닉네임을 변경을 {nickName}으로 완료 했습니다.", null, "");
+                    }
+                    else
+                    {
+                        Nickname = nickName;
+                        IsLogined = true;
+                    }
+                    break;
+                case 400 :
+                    UIManager.Instance.OpenRecyclePopupOneButton("시스템 에러", $"잘못된 닉네임 입력입니다.", null, "");
+                    break;
+                case 409 :
+                    UIManager.Instance.OpenRecyclePopupOneButton("시스템 에러", $"이미 중복된 닉네임이 있습니다.", null, "");
+                    break;
+            }
+        });
     }
     
     /* 방치형 보상때 사용

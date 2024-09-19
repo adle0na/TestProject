@@ -11,7 +11,7 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 {
 	private static GoogleSheetManager instance;
 	
-	const string URL = "https://docs.google.com/spreadsheets/d/18p6ZGAuyzWREIUGrczyPhMjNdnpAILS_StEJQD00ACk/export?format=tsv";
+	const string URL = "https://docs.google.com/spreadsheets/d/1ekHdkJqHKicKDH4EZaDkkv5D5FZiB_uq8I4RuVznbwY/export?format=tsv";
 	//&rang=A2:B2;
 	//&gid=5454968
 	public bool isDataLoad;
@@ -46,6 +46,8 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 
 	public void LoadAllData()
 	{
+		Debug.LogError("모든 데이터 조회 실행");
+		
 		AllListClear();
 
 		if (getDataCor != null)
@@ -89,10 +91,10 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 			 switch (value)
 			 {
 				case TableDataType.Character:
-					//StoryDataParse(data);
+					CharacterDataParse(data);
 				break;
 				case TableDataType.Monster:
-					//PoolDataParse(data);
+					MonsterDataParse(data);
 					break;
 				case TableDataType.Item:
 					//CaseDataParse(data);
@@ -134,122 +136,157 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 		switch (tableType)
 		{
 			case TableDataType.Character:
-				tableCode = "0&range=A4:C";
+				tableCode = "0&range=A4:V";
 				break;
 			case TableDataType.Monster:
-				tableCode = "5454968&range=A4:K";
+				tableCode = "1154871274&range=A4:N";
 				break;
 			case TableDataType.Item:
-				tableCode = "557199738&range=A4:H";
+				//tableCode = "557199738&range=A4:H";
 				break;
 			case TableDataType.Weapon:
-				tableCode = "2136310630&range=A4:L";
+				//tableCode = "2136310630&range=A4:L";
 				break;
 			case TableDataType.Armor:
-				tableCode = "270773085&range=A4:D";
+				//tableCode = "270773085&range=A4:D";
 				break;
 			case TableDataType.AllEvent:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 			case TableDataType.Event1:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 			case TableDataType.Event2:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 			case TableDataType.Event3:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 			case TableDataType.Shop:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 			case TableDataType.Skill:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 			case TableDataType.Mission:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 			case TableDataType.InAppositeWord:
-				tableCode = "1452065059&range=A4:S";
+				//tableCode = "1452065059&range=A4:S";
 				break;
 		}
 
 		return $"{header}{tableCode}";
 	}
-	// public void StoryDataParse(string data)
-	// {
-	// 	storyDB.Clear();
-	// 	
-	// 	string[] lines = data.Trim().Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 	
-	// 	foreach (string line in lines)
-	// 	{
-	// 		string[] values = line.Trim().Split(new[] { '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 		
-	// 		if (values.Length == 3 && 
-	// 		    int.TryParse(values[0], out int storyOrder) &&
-	// 		    int.TryParse(values[1], out int poolID) &&
-	// 		    int.TryParse(values[2], out int timeLine))
-	// 		{
-	// 			StoryData storyData = new StoryData();
-	//
-	// 			storyData.storyOder = storyOrder;
-	// 			storyData.poolID    = poolID;
-	// 			storyData.timeLine  = timeLine;
-	//
-	// 			storyDB.Add(storyData);
-	// 		}
-	// 		else
-	// 		{
-	// 			Debug.LogError($"Invalid data line: {line}");
-	// 		}
-	// 	}
-	// }
-	//
-	// public void PoolDataParse(string data)
-	// {
-	// 	poolDB.Clear();
-	// 	
-	// 	string[] lines = data.Trim().Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 	
-	// 	foreach (string line in lines)
-	// 	{
-	// 		string[] values = line.Trim().Split(new[] { '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
-	// 		
-	// 		if (values.Length == 11 && 
-	// 		    int.TryParse(values[0], out int poolID) &&
-	// 		    int.TryParse(values[1], out int caseID) &&
-	// 		    float.TryParse(values[2], out float caseRate) &&
-	// 		    float.TryParse(values[4], out float caseStat1Value) &&
-	// 		    bool.TryParse(values[5], out bool caseStatus1valueCondition) &&
-	// 		    float.TryParse(values[6], out float caseStat1Rate) &&
-	// 		    float.TryParse(values[8], out float caseStat2Value) &&
-	// 		    bool.TryParse(values[9], out bool caseStatus2valueCondition) &&
-	// 		    float.TryParse(values[10], out float caseStat2Rate))
-	// 		{
-	// 			PoolData poolData = new PoolData();
-	//
-	// 			poolData.poolID                    = poolID;
-	// 			poolData.caseID                    = caseID;
-	// 			poolData.caseRate                  = caseRate;
-	// 			poolData.caseStat1                 = StringToStatusEnum(values[3]);
-	// 			poolData.caseStat1Value            = caseStat1Value;
-	// 			poolData.caseStatus1valueCondition = caseStatus1valueCondition;
-	// 			poolData.caseStat1Rate             = caseStat1Rate;
-	// 			poolData.caseStat2                 = StringToStatusEnum(values[7]);
-	// 			poolData.caseStat2Value            = caseStat2Value;
-	// 			poolData.caseStatus2valueCondition = caseStatus2valueCondition;
-	// 			poolData.caseStat2Rate             = caseStat2Rate;
-	//
-	// 			poolDB.Add(poolData);
-	// 		}
-	// 		else
-	// 		{
-	// 			Debug.LogError($"Invalid data line: {line}");
-	// 		}
-	// 	}
-	// }
-	//
+	public void CharacterDataParse(string data)
+	{
+		characterDB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 22 && 
+			    int.TryParse(values[0], out int index) &&
+			    int.TryParse(values[5], out int hp) &&
+			    float.TryParse(values[6], out float hpIncrement) &&
+			    int.TryParse(values[7], out int def) &&
+			    float.TryParse(values[8], out float defIncrement) &&
+			    int.TryParse(values[9], out int atk) &&
+			    float.TryParse(values[10], out float atkIncrement) &&
+			    int.TryParse(values[11], out int spd) &&
+			    float.TryParse(values[12], out float spdIncrement) &&
+			    int.TryParse(values[13], out int ats) &&
+			    double.TryParse(values[14], out double atsIncrement) &&
+			    int.TryParse(values[15], out int evd) &&
+			    double.TryParse(values[16], out double evdIncrement) &&
+				int.TryParse(values[17], out int crt) &&
+			    double.TryParse(values[18], out double crtIncrement) &&
+				int.TryParse(values[19], out int crtd) &&
+			    double.TryParse(values[20], out double crtdIncrement)
+				)
+			{
+				CharacterData characterData = new CharacterData();
+	
+				characterData.index         = index;
+				characterData.name          = values[1];
+				characterData.prefabName    = values[2];
+				characterData.iconName      = values[3];
+				characterData.attribute     = StringToStatusEnum(values[4]);
+				characterData.hp            = hp;
+				characterData.hpIncrement   = hpIncrement;
+				characterData.def           = def;
+				characterData.defIncrement  = defIncrement;
+				characterData.atk           = atk;
+				characterData.atkIncrement  = atkIncrement;
+				characterData.spd           = spd;
+				characterData.spdIncrement  = spdIncrement;
+				characterData.ats           = ats;
+				characterData.atsIncrement  = atsIncrement;
+				characterData.evd           = evd;
+				characterData.evdIncrement  = evdIncrement;
+				characterData.crt           = crt;
+				characterData.crtIncrement  = crtIncrement;
+				characterData.crtd          = crtd;
+				characterData.crtdIncrement = crtdIncrement;
+				characterData.descript      = values[21];
+				
+				characterDB.Add(characterData);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
+	}
+	public void MonsterDataParse(string data)
+	{
+		monsterDB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 14 && 
+			    int.TryParse(values[0], out int index) &&
+			    int.TryParse(values[5], out int hp) &&
+			    float.TryParse(values[6], out float hpIncrement) &&
+			    int.TryParse(values[7], out int atk) &&
+			    float.TryParse(values[8], out float atkIncrement) &&
+			    int.TryParse(values[9], out int def) &&
+			    float.TryParse(values[10], out float defIncrement) &&
+			    int.TryParse(values[12], out int minGrade)
+			   )
+			{
+				MonsterData monsterData = new MonsterData();
+	
+				monsterData.index         = index;
+				monsterData.title         = values[1];
+				monsterData.name          = values[2];
+				monsterData.prefabName    = values[3];
+				monsterData.iconName      = values[4];
+				monsterData.hp            = hp;
+				monsterData.hpIncrement   = hpIncrement;
+				monsterData.atk           = atk;
+				monsterData.atkIncrement  = atkIncrement;
+				monsterData.def           = def;
+				monsterData.defIncrement  = defIncrement;
+				monsterData.attribute     = StringToStatusEnum(values[11]);
+				monsterData.minGrade      = minGrade;
+				monsterData.descript      = values[13];
+				
+				monsterDB.Add(monsterData);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
+	}
 	// public void CaseDataParse(string data)
 	// {
 	// 	caseDB.Clear();
@@ -419,12 +456,11 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 	// 	}
 	// }
 
-	// private Status StringToStatusEnum(string enumString)
-	// {
-	// 	Status statusType = (Status)Enum.Parse(typeof(Status), enumString);
-	//
-	// 	return statusType;
-	// }
+	private Attribute StringToStatusEnum(string enumString)
+	{
+		Attribute statusType = (Attribute)Enum.Parse(typeof(Attribute), enumString);
+			return statusType;
+	}
 	//
 	// private CaseType StringToCaseTypeEnum(string enumString)
 	// {

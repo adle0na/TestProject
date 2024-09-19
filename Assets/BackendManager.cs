@@ -248,10 +248,7 @@ public class BackendManager : Singleton<BackendManager>
         while (!LoadServerTime)
             yield return null;
         Debug.LogError($"LoadServerTime {LoadServerTime}");
-        
-        // 일단은 그냥 데이터 불러오기, 나중엔 로컬에 저장하고 불러오는 방식으로 변경 필요
-        GoogleSheetManager.Instance.LoadAllData();
-        
+
         DataManager.Instance.SetDefaultData();
 
         switch (bro.GetStatusCode())

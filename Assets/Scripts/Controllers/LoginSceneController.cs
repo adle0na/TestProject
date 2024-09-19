@@ -37,6 +37,8 @@ public class LoginSceneController : MonoBehaviour
         StartCoroutine(nameof(CheckBackendInitialized));
 
         StartCoroutine(nameof(CheckIsAlreadyLogined));
+
+        StartCoroutine(nameof(CheckAllConditionReady));
     }
     void LoginSceneUIInitialize()
     {
@@ -59,6 +61,8 @@ public class LoginSceneController : MonoBehaviour
     {
         yield return new WaitUntil(() => BackendManager.Instance.IsInitialize);
 
+        GoogleSheetManager.Instance.LoadAllData();
+        
         LoginSceneUIInitialize();
     }
 
@@ -67,7 +71,12 @@ public class LoginSceneController : MonoBehaviour
         yield return new WaitUntil(() => BackendManager.Instance.IsLogined);
         
         loginSceneUI.loginButtonParent.SetActive(false);
-        
+    }
+    
+    IEnumerator CheckAllConditionReady()
+    {
+        yield return new WaitUntil(() => BackendManager.Instance.IsInitialize && BackendManager.Instance.IsLogined && GoogleSheetManager.Instance.isDataLoad);
+
         SceneManager.LoadScene(1);
     }
 }

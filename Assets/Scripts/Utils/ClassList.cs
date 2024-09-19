@@ -22,13 +22,13 @@ public class CharacterData
     public int spd;
     public float spdIncrement;
     public int ats;
-    public float atsIncrement;
+    public double atsIncrement;
     public int evd;
-    public float evdIncrement;
+    public double evdIncrement;
     public int crt;
-    public float crtIncrement;
+    public double crtIncrement;
     public int crtd;
-    public float crtdIncrement;
+    public double crtdIncrement;
     public string descript;
 }
 

@@ -11,7 +11,6 @@ public enum LoginType
 
 public enum UserDataType
 {
-    UserAccount,
     UserProperty,
     UserCharacterUpgrade
 }

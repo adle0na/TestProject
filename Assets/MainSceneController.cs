@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class MainSceneController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private List<GameObject> mapPrefabs;
 
-    // Update is called once per frame
-    void Update()
+    public void CreateMap()
     {
         
     }

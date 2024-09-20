@@ -23,7 +23,6 @@ public class DataManager : Singleton<DataManager>
     
     List<Dictionary<string, object>> DataDic = new List<Dictionary<string, object>>();
     
-    public UserAccountData     userAccountData        = new();
     public UserPropertyData    userPropertyData       = new();
     public UserWeaponInvenData userWeaponInvenData    = new();
     public UserArmorInvenData  userArmorInvenData     = new();
@@ -84,12 +83,7 @@ public class DataManager : Singleton<DataManager>
     {
         switch (table)
         {
-            case UserDataType.UserAccount:
-                userAccountData.RowIndate  = inDate;
-                break;
-            case UserDataType.UserProperty:
-                userPropertyData.RowIndate = inDate;
-                break;
+
         }
     }
     
@@ -97,9 +91,6 @@ public class DataManager : Singleton<DataManager>
     public void SetUserData()
     {
         BackendManager.Instance.Nickname = Backend.UserNickName;
-
-        userAccountData.AccountLevel = 1;
-        userAccountData.LastConnect = LocalTime.ToString();
     }
     
     // 유저 값 저장
@@ -107,12 +98,6 @@ public class DataManager : Singleton<DataManager>
     {
         switch (type)
         {
-            case UserDataType.UserAccount:
-                userAccountData.RowIndate = json["inDate"].ToString();
-                
-                userAccountData.AccountLevel = int.Parse(json["AccountLevel"].ToString());
-                userAccountData.LastConnect  = json["LastConnect"].ToString();
-                break;
             case UserDataType.UserProperty:
                 userPropertyData.RowIndate = json["inDate"].ToString();
                 
@@ -131,14 +116,14 @@ public class DataManager : Singleton<DataManager>
     
     public void SaveUserData(SaveType type)
     {
-        userAccountData.LastConnect = LocalTime.ToString("yyyy-MM-dd HH:mm:ss");
-        Param paramUserData = new Param();
-        paramUserData.Add("AccountLevel", userAccountData.AccountLevel);
-        paramUserData.Add("LastConnect", userAccountData.LastConnect);
-        if(type == SaveType.Insert)
-            BackendManager.Instance.AddTransactionInsert(UserDataType.UserAccount, paramUserData);
-        else
-            BackendManager.Instance.AddTransactionUpdate(UserDataType.UserAccount, userAccountData.RowIndate, paramUserData);
+        // userAccountData.LastConnect = LocalTime.ToString("yyyy-MM-dd HH:mm:ss");
+        // Param paramUserData = new Param();
+        // paramUserData.Add("AccountLevel", userAccountData.AccountLevel);
+        // paramUserData.Add("LastConnect", userAccountData.LastConnect);
+        // if(type == SaveType.Insert)
+        //     BackendManager.Instance.AddTransactionInsert(UserDataType.UserAccount, paramUserData);
+        // else
+        //     BackendManager.Instance.AddTransactionUpdate(UserDataType.UserAccount, userAccountData.RowIndate, paramUserData);
     }
 }
 

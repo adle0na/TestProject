@@ -254,12 +254,12 @@ public class BackendManager : Singleton<BackendManager>
         switch (bro.GetStatusCode())
         {
             case "201": //신규 회원가입
-                Debug.Log("신규 회원으로 시작합니다");
+                Debug.LogError("신규 회원으로 시작합니다");
                 SetNewUserDataSaveToServer();
                 InsertLog(GameLogType.SignIn, $"{Application.version}");
                 break;
             case "200": //로그인
-                Debug.Log("일반 로그인");
+                Debug.LogError("일반 로그인");
                 GetUserDataFromServer();
                 InsertLog(GameLogType.LogIn, $"{Application.version}");
                 break;
@@ -311,7 +311,7 @@ public class BackendManager : Singleton<BackendManager>
     
     public void GetServerTime()
     {
-        //InitTime();
+        InitTime();
         InvokeRepeating("GetServerTimeFor5minutes", 300f, 300f);
     }
     
@@ -399,6 +399,7 @@ public class BackendManager : Singleton<BackendManager>
                             if (callback.GetErrorCode().Contains("HttpRequestException"))
                             {
                                 //네트워크 연결 끊어짐
+                                Debug.LogError("네트워크 연결 끊어짐");
                             }
                         }
 
@@ -407,6 +408,7 @@ public class BackendManager : Singleton<BackendManager>
                             if (callback.GetErrorCode().Contains("BadUnauthorizedException"))
                             {
                                 //업데이트 에러
+                                Debug.LogError("업데이트 에러");
                             }
                         }
                         Debug.LogError($"Send Failed {callback.IsSuccess()} {callback.GetStatusCode()} {callback.GetErrorCode()} {callback.GetMessage()}");
@@ -445,8 +447,11 @@ public class BackendManager : Singleton<BackendManager>
                                                 //insert 필요
                                                 switch (actions[i].table)
                                                 {
-                                                    case "UserData":
-                                                        //DataManager.Instance.SaveUserData(SaveType.Insert);
+                                                    case "UserPropertyData":
+                                                        DataManager.Instance.SaveUserPropertyData(SaveType.Insert);
+                                                        break;
+                                                    case "UserCharacterUpgradeData":
+                                                        DataManager.Instance.SaveUserCharacterUpgradeData(SaveType.Insert);
                                                         break;
                                                 }
                                             }
@@ -565,7 +570,6 @@ public class BackendManager : Singleton<BackendManager>
         });
     }
     
-    /* 방치형 보상때 사용
     public void InitTime()
     {
         if(initTimeCount > 3)
@@ -591,5 +595,5 @@ public class BackendManager : Singleton<BackendManager>
             }
         });
     }
-    */
+    
 }

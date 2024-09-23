@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 로그인 타입
 public enum LoginType
 {
     Guest,
@@ -9,12 +10,14 @@ public enum LoginType
     Apple
 }
 
+// 유저 데이터 타입
 public enum UserDataType
 {
     UserProperty,
     UserCharacterUpgrade
 }
 
+// 테이블 데이터 타입
 public enum TableDataType
 {
     Character,
@@ -35,6 +38,7 @@ public enum TableDataType
     InAppositeWord
 }
 
+// 게임 로그 타입
 public enum GameLogType
 {
     SignIn,
@@ -45,6 +49,7 @@ public enum GameLogType
     UpgradeArmor
 }
 
+// UI 타입
 public enum CurrentUIStatus
 {
     UI,
@@ -52,6 +57,7 @@ public enum CurrentUIStatus
     NoneABBPopup
 }
 
+// 가격 타입
 public enum PriceType
 {
     IAP,
@@ -59,6 +65,7 @@ public enum PriceType
     Dia,
 }
 
+// 속성 타입
 public enum Attribute
 {
     Forest,
@@ -67,20 +74,33 @@ public enum Attribute
     FireGround
 }
 
+// 무기 타입
 public enum WeaponType
 {
-    SwordShield,
+    AxeShield,
     GreatSword,
     Bow,
     Staff
 }
 
+// 방어구 타입
+public enum ArmorType
+{
+    Slot1,
+    Slot2,
+    Slot3,
+    Slot4,
+    Slot5
+}
+
+// 서버 타입
 public enum ServerType
 {
     Dev,
     Live
 }
 
+// 서버 데이터 송수신 타입
 public enum TransactionType
 {
     Insert,
@@ -88,6 +108,7 @@ public enum TransactionType
     SetGet
 }
 
+// 저장 형식
 public enum SaveType
 {
     Insert,

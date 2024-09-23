@@ -21,6 +21,7 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 	public List<IngredientItem>     ingredientItemDB;
 	public List<ConsumableItem>     consumableItemDB;
 	public List<WeaponData>         weaponDB;
+	public List<WeaponCraftData>    weaponCraftDB;
 	public List<ArmorData>          armorDB;
 	public List<AllEventData>       allEventDB;
 	public List<Event1Data>         event1DB;
@@ -88,7 +89,8 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 					WeaponDataParse(data);
 					break;
 				case TableDataType.WeaponCraft:
-					//
+					WeaponCraftDataParse(data);
+					break;
 				case TableDataType.Armor:
 					//SelectEventDataParse(data);
 					break;
@@ -358,10 +360,10 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 			if (values.Length == 15 && 
 			    int.TryParse(values[0], out int index) &&
 			    int.TryParse(values[10], out int atk) &&
-			    int.TryParse(values[6], out int ap) &&
-			    double.TryParse(values[7], out double crt) &&
-			    float.TryParse(values[8], out float bornGrade) &&
-			    int.TryParse(values[9], out int skillIndex)
+			    int.TryParse(values[11], out int ap) &&
+			    double.TryParse(values[12], out double crt) &&
+			    float.TryParse(values[13], out float bornGrade) &&
+			    int.TryParse(values[14], out int skillIndex)
 			   )
 			{
 				WeaponData weaponData = new WeaponData();
@@ -383,6 +385,64 @@ public class GoogleSheetManager : Singleton<GoogleSheetManager>
 				weaponData.skillIndex    = skillIndex;
 
 				weaponDB.Add(weaponData);
+			}
+			else
+			{
+				Debug.LogError($"Invalid data line: {line}");
+			}
+		}
+	}
+	
+	public void WeaponCraftDataParse(string data)
+	{
+		weaponCraftDB.Clear();
+		
+		string[] lines = data.Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		
+		foreach (string line in lines)
+		{
+			string[] values = line.Trim().Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			
+			if (values.Length == 17 && 
+			    int.TryParse(values[0], out int index) &&
+			    int.TryParse(values[2], out int weaponIndex) &&
+			    float.TryParse(values[3], out float grade) &&
+			    int.TryParse(values[4], out int ingre1) &&
+			    int.TryParse(values[5], out int ingre1Amount) &&
+			    int.TryParse(values[6], out int ingre2) &&
+			    int.TryParse(values[7], out int ingre2Amount) &&
+			    int.TryParse(values[8], out int ingre3) &&
+			    int.TryParse(values[9], out int ingre3Amount) &&
+			    int.TryParse(values[10], out int ingre4) &&
+			    int.TryParse(values[11], out int ingre4Amount) &&
+			    int.TryParse(values[12], out int ingre5) &&
+			    int.TryParse(values[13], out int ingre5Amount) &&
+			    int.TryParse(values[14], out int ingre6) &&
+			    int.TryParse(values[15], out int ingre6Amount) &&
+			    int.TryParse(values[16], out int gold)
+			   )
+			{
+				WeaponCraftData weaponCraftData = new WeaponCraftData();
+	
+				weaponCraftData.index         = index;
+				weaponCraftData.name          = values[1];
+				weaponCraftData.weaponIndex   = weaponIndex;
+				weaponCraftData.grade         = grade;
+				weaponCraftData.ingre1        = ingre1;
+				weaponCraftData.ingre1Amount  = ingre1Amount;
+				weaponCraftData.ingre2        = ingre2;
+				weaponCraftData.ingre2Amount  = ingre2Amount;
+				weaponCraftData.ingre3        = ingre3;
+				weaponCraftData.ingre3Amount  = ingre3Amount;
+				weaponCraftData.ingre4        = ingre4;
+				weaponCraftData.ingre4Amount  = ingre4Amount;
+				weaponCraftData.ingre5        = ingre5;
+				weaponCraftData.ingre5Amount  = ingre5Amount;
+				weaponCraftData.ingre6        = ingre6;
+				weaponCraftData.ingre6Amount  = ingre6Amount;
+				weaponCraftData.gold          = gold;
+
+				weaponCraftDB.Add(weaponCraftData);
 			}
 			else
 			{

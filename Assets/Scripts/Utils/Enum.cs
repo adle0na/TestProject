@@ -115,3 +115,11 @@ public enum SaveType
     Update,
     SetGet
 }
+
+public enum Direction
+{
+    Up,
+    Down,
+    Left,
+    Right
+}

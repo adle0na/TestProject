@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotationSpeed = 10f;
 
+    [SerializeField] private List<GameObject> _joyStickDirectionImages;
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -24,6 +26,21 @@ public class PlayerController : MonoBehaviour
         
         if (moveDirection != Vector3.zero)
         {
+            if (Mathf.Abs(moveDirection.x) > Mathf.Abs(moveDirection.z))
+            {
+                if (moveDirection.x > 0)
+                    JoystickEffect(Direction.Right);
+                else
+                    JoystickEffect(Direction.Left);
+            }
+            else
+            {
+                if (moveDirection.z > 0)
+                    JoystickEffect(Direction.Up);
+                else
+                    JoystickEffect(Direction.Down);
+            }
+            
             _rigidbody.velocity = new Vector3(moveDirection.x * _moveSpeed,
                 _rigidbody.velocity.y,
                 moveDirection.z * _moveSpeed);
@@ -37,5 +54,12 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetInteger("animation", 13);
         }
+    }
+
+    void JoystickEffect(Direction handlingDirection)
+    {
+        foreach (var directionImage in _joyStickDirectionImages) directionImage.gameObject.SetActive(false);
+        
+        _joyStickDirectionImages[(int)handlingDirection].gameObject.SetActive(true);
     }
 }

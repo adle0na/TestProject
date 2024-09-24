@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class LoginSceneController : MonoBehaviour
 {
-    private DataManager dataManager;
+    //private DataManager dataManager;
 
     public LoginSceneUI loginSceneUI;
     
@@ -25,20 +25,14 @@ public class LoginSceneController : MonoBehaviour
 
     private void Awake()
     {
-        BackendManager.Instance.Initialize();
+        //BackendManager.Instance.Initialize();
     }
 
     void Start()
     {
-        dataManager = DataManager.Instance;
+        //dataManager = DataManager.Instance;
         
         //AudioManager.Instance.PlayBGM(0);
-
-        StartCoroutine(nameof(CheckBackendInitialized));
-
-        StartCoroutine(nameof(CheckIsAlreadyLogined));
-
-        StartCoroutine(nameof(CheckAllConditionReady));
     }
     void LoginSceneUIInitialize()
     {
@@ -57,26 +51,26 @@ public class LoginSceneController : MonoBehaviour
         }
     }
 
-    IEnumerator CheckBackendInitialized()
-    {
-        yield return new WaitUntil(() => BackendManager.Instance.IsInitialize);
-
-        GoogleSheetManager.Instance.LoadAllData();
-        
-        LoginSceneUIInitialize();
-    }
-
-    IEnumerator CheckIsAlreadyLogined()
-    {
-        yield return new WaitUntil(() => BackendManager.Instance.IsLogined);
-        
-        loginSceneUI.loginButtonParent.SetActive(false);
-    }
-    
-    IEnumerator CheckAllConditionReady()
-    {
-        yield return new WaitUntil(() => BackendManager.Instance.IsInitialize && BackendManager.Instance.IsLogined && GoogleSheetManager.Instance.isDataLoad);
-
-        SceneManager.LoadScene(1);
-    }
+    // IEnumerator CheckBackendInitialized()
+    // {
+    //     yield return new WaitUntil(() => BackendManager.Instance.IsInitialize);
+    //
+    //     GoogleSheetManager.Instance.LoadAllData();
+    //     
+    //     LoginSceneUIInitialize();
+    // }
+    //
+    // IEnumerator CheckIsAlreadyLogined()
+    // {
+    //     yield return new WaitUntil(() => BackendManager.Instance.IsLogined);
+    //     
+    //     loginSceneUI.loginButtonParent.SetActive(false);
+    // }
+    //
+    // IEnumerator CheckAllConditionReady()
+    // {
+    //     yield return new WaitUntil(() => BackendManager.Instance.IsInitialize && BackendManager.Instance.IsLogined && GoogleSheetManager.Instance.isDataLoad);
+    //
+    //     SceneManager.LoadScene(1);
+    // }
 }

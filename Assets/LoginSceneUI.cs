@@ -13,29 +13,5 @@ public class LoginSceneUI : MonoBehaviour
 
     public GameObject loginButtonParent;
 
-    private DataManager dataManager;
-
-    private void Start()
-    {
-        dataManager = DataManager.Instance;
-    }
-
     // 버튼 눌러 신규 가입한 경우
-    public void TryLogin(int loginType)
-    {
-        switch (loginType)
-        {
-            case 0 :
-                dataManager.loginType = LoginType.Guest;
-                break;
-            case 1 :
-                dataManager.loginType = LoginType.Google;
-                break;
-            case 2 :
-                dataManager.loginType = LoginType.Apple;
-                break;
-        }
-
-        DataManager.Instance.LoginWithType();
-    }
 }

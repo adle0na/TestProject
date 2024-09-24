@@ -21,8 +21,8 @@ public class NickNameCreatePopup : MonoBehaviour
             }
         }
 
-        Action nextAction = () => BackendManager.Instance.ChangeNickName(nickNameInput.text, isChange);
+        //Action nextAction = () => BackendManager.Instance.ChangeNickName(nickNameInput.text, isChange);
         
-        UIManager.Instance.OpenRecyclePopupTwoButton("시스템 메세지", $"사용 가능합니다. \n {nickNameInput.text}으로 하시겠습니까?", nextAction, null);
+        //UIManager.Instance.OpenRecyclePopupTwoButton("시스템 메세지", $"사용 가능합니다. \n {nickNameInput.text}으로 하시겠습니까?", nextAction, null);
     }
 }
